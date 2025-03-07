@@ -16,16 +16,24 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, $role): Response
     {
-        if (!Auth::check()) {
-            return redirect('login');
+        if(!Auth::check())
+        {
+            return redirect()->route('login');
         }
 
-        if ($role == 'admin' && !Auth::user()->isAdmin()) {
-            return redirect('customer/dashboard');
+        if($role === 'admin' && !Auth::user()->isAdmin() && !Auth::user()->isSuperAdmin())
+        {
+            abort(403);
+        }
+    
+        if($role === 'superadmin' && !Auth::user()->isSuperAdmin())
+        {
+            abort(403);
         }
 
-        if ($role == 'customer' && !Auth::user()->isCustomer()) {
-            return redirect('admin/dashboard');
+        if($role === 'customer' && !Auth::user()->isCustomer())
+        {
+            abort(403);
         }
 
         return $next($request);

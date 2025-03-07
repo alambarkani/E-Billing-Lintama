@@ -12,7 +12,11 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         //
-       $middleware->redirectGuestsTo('/login');
+        $middleware->redirectGuestsTo('/login');
+        $middleware->alias([
+            'redirect' => App\Http\Middleware\RedirectRoleDashboard::class,
+            'role' => App\Http\Middleware\CheckRole::class
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

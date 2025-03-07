@@ -57,6 +57,11 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
+    public function isSuperAdmin()
+    {
+        return $this->role->name === 'superadmin';
+    }
+
     public function isAdmin()
     {
         return $this->role->name === 'admin';

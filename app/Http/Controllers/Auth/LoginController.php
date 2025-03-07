@@ -9,6 +9,7 @@ use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
+
     public function showLoginForm()
     {
         return view('auth.login');
@@ -31,14 +32,14 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             if (Auth::user()->isAdmin()) {
-                return redirect()->intended('admin.dashboard');
+                return redirect()->intended(route('admin.dashboard'));
             } else {
-                return redirect()->intended('customer.dashboard');
+                return redirect()->intended(route('customer.dashboard'));
             }
         }
 
         return back()->withErrors([
-            'login' => 'These credentials do not match our records.',
+            'login' => 'Username atau password salah.',
         ]);
     }
 
