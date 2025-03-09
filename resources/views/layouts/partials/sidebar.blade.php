@@ -47,50 +47,58 @@
                         Dashboard
                     </a>
                 </div>
-                <div x-data="{ open: false }" class="space-y-1">
-                    <a href="#" @click.prevent="open = !open"
-                        class="flex items-center justify-between px-2 py-2 text-base font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900 group">
-                        <div class="flex items-center">
-                            <svg class="w-6 h-6 mr-4 text-gray-400 group-hover:text-gray-500"
-                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                            </svg>
-                            Data Pelanggan
-                        </div>
-                        <!-- Dropdown arrow -->
-                        <svg class="w-5 h-5 text-gray-400 transition-transform duration-200"
-                            :class="{ 'rotate-180': open }" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </a>
-                    <!-- Dropdown menu that expands within the sidebar -->
-                    <div x-show="open" x-transition:enter="transition-all ease-in-out duration-300"
-                        x-transition:enter-start="opacity-0 max-h-0" x-transition:enter-end="opacity-100 max-h-96"
-                        x-transition:leave="transition-all ease-in-out duration-300"
-                        x-transition:leave-start="opacity-100 max-h-96" x-transition:leave-end="opacity-0 max-h-0"
-                        class="overflow-hidden pl-8 ml-1 border-l border-indigo-100">
+                <div>
+                    <h3 class="px-3 text-xs font-semibold tracking-wider text-gray-500 uppercase">
+                        Customer Manage
+                    </h3>
+                    <!-- Parent menu item with dropdown -->
+                    <div x-data="{ open: false }" class="space-y-1">
+                        <!-- Main menu item (clickable) -->
+                        <a @click.prevent="open = !open" href="#"
+                            class="flex items-center justify-between px-2 py-2 text-sm font-medium text-gray-600 rounded-md @if (request()->routeIs('admin.customer-manage.*')) text-white bg-indigo-600 @else hover:bg-gray-50 hover:text-gray-900 group @endif">
+                            <div class="flex items-center">
+                                <svg class="w-6 h-6 text-gray-400 mr-3 group-hover:text-gray-500" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                    viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                                        d="M16 19h4a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-2m-2.236-4a3 3 0 1 0 0-4M3 18v-1a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Zm8-10a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                </svg>
 
-                        <a href="#"
-                            class="flex py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900">
-                            Semua Pelanggan
+                                Data Pelanggan
+                            </div>
+                            <!-- Dropdown arrow -->
+                            <svg class="w-5 h-5 text-gray-400 transition-transform duration-200"
+                                :class="{ 'rotate-180': open }" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
                         </a>
-                        <a href="#"
-                            class="flex py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900">
-                            Pelanggan Lunas
-                        </a>
-                        <a href="#"
-                            class="flex py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900">
-                            Pelanggan Belum Lunas
-                        </a>
-                        <a href="#"
-                            class="flex py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900">
-                            Pelanggan Nunggak
-                        </a>
+                        <!-- Dropdown menu that expands within the sidebar -->
+                        <div x-show="open" x-transition:enter="transition-all ease-in-out duration-300"
+                            x-transition:enter-start="opacity-0 max-h-0" x-transition:enter-end="opacity-100 max-h-96"
+                            x-transition:leave="transition-all ease-in-out duration-300"
+                            x-transition:leave-start="opacity-100 max-h-96" x-transition:leave-end="opacity-0 max-h-0"
+                            class="overflow-hidden pl-8 ml-1 border-l border-indigo-100">
+
+                            <a href="{{ route('customer-manage.index') }}"
+                                class="flex py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900">
+                                Semua Pelanggan
+                            </a>
+                            <a href="#"
+                                class="flex py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900">
+                                Pelanggan Lunas
+                            </a>
+                            <a href="#"
+                                class="flex py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900">
+                                Pelanggan Belum Lunas
+                            </a>
+                            <a href="#"
+                                class="flex py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900">
+                                Pelanggan Nunggak
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <a href="#"
@@ -198,54 +206,59 @@
                         Dashboard
                     </a>
                 </div>
-                <!-- Parent menu item with dropdown -->
-                <div x-data="{ open: false }" class="space-y-1">
-                    <!-- Main menu item (clickable) -->
-                    <a @click.prevent="open = !open" href="#"
-                        class="flex items-center justify-between px-2 py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900 group">
-                        <div class="flex items-center">
-                            <svg class="w-6 h-6 text-gray-400 mr-3" aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                                viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
-                                    d="M16 19h4a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-2m-2.236-4a3 3 0 1 0 0-4M3 18v-1a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Zm8-10a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+
+                <div>
+                    <h3 class="px-3 text-xs font-semibold tracking-wider text-gray-500 uppercase">
+                        Customer Manage
+                    </h3>
+                    <!-- Parent menu item with dropdown -->
+                    <div x-data="{ open: false }" class="space-y-1">
+                        <!-- Main menu item (clickable) -->
+                        <a @click.prevent="open = !open" href="#"
+                            class="flex items-center justify-between px-2 py-2 text-sm font-medium text-gray-600 rounded-md @if (request()->routeIs('customer-manage.*')) text-white bg-indigo-600 @else hover:bg-gray-50 hover:text-gray-900 group @endif">
+                            <div class="flex items-center">
+                                <svg class="w-6 h-6 text-gray-400 mr-3 group-hover:text-gray-500" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                    viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                                        d="M16 19h4a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-2m-2.236-4a3 3 0 1 0 0-4M3 18v-1a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Zm8-10a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                </svg>
+
+                                Data Pelanggan
+                            </div>
+                            <!-- Dropdown arrow -->
+                            <svg class="w-5 h-5 text-gray-400 transition-transform duration-200"
+                                :class="{ 'rotate-180': open }" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
                             </svg>
+                        </a>
+                        <!-- Dropdown menu that expands within the sidebar -->
+                        <div x-show="open" x-transition:enter="transition-all ease-in-out duration-300"
+                            x-transition:enter-start="opacity-0 max-h-0" x-transition:enter-end="opacity-100 max-h-96"
+                            x-transition:leave="transition-all ease-in-out duration-300"
+                            x-transition:leave-start="opacity-100 max-h-96" x-transition:leave-end="opacity-0 max-h-0"
+                            class="overflow-hidden pl-8 ml-1 border-l border-indigo-100">
 
-                            Data Pelanggan
+                            <a href="{{ route('customer-manage.index') }}"
+                                class="flex py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900">
+                                Semua Pelanggan
+                            </a>
+                            <a href="#"
+                                class="flex py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900">
+                                Pelanggan Lunas
+                            </a>
+                            <a href="#"
+                                class="flex py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900">
+                                Pelanggan Belum Lunas
+                            </a>
+                            <a href="#"
+                                class="flex py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900">
+                                Pelanggan Nunggak
+                            </a>
                         </div>
-                        <!-- Dropdown arrow -->
-                        <svg class="w-5 h-5 text-gray-400 transition-transform duration-200"
-                            :class="{ 'rotate-180': open }" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </a>
-
-                    <!-- Dropdown menu that expands within the sidebar -->
-                    <div x-show="open" x-transition:enter="transition-all ease-in-out duration-300"
-                        x-transition:enter-start="opacity-0 max-h-0" x-transition:enter-end="opacity-100 max-h-96"
-                        x-transition:leave="transition-all ease-in-out duration-300"
-                        x-transition:leave-start="opacity-100 max-h-96" x-transition:leave-end="opacity-0 max-h-0"
-                        class="overflow-hidden pl-8 ml-1 border-l border-indigo-100">
-
-                        <a href="#"
-                            class="flex py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900">
-                            Semua Pelanggan
-                        </a>
-                        <a href="#"
-                            class="flex py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900">
-                            Pelanggan Lunas
-                        </a>
-                        <a href="#"
-                            class="flex py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900">
-                            Pelanggan Belum Lunas
-                        </a>
-                        <a href="#"
-                            class="flex py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900">
-                            Pelanggan Nunggak
-                        </a>
                     </div>
                 </div>
                 <a href="#"

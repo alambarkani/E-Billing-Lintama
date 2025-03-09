@@ -4,10 +4,10 @@
     <div class="py-6">
         <div class="px-4 mx-auto max-w-7xl sm:px-6 md:px-8">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                <h1 class="text-2xl font-semibold text-gray-900">Users</h1>
-                <a href="{{ route('users.create') }}"
+                <h1 class="text-2xl font-semibold text-gray-900">Customers</h1>
+                <a href="{{ route('customer-manage.create') }}"
                     class="px-4 py-2 mt-3 text-sm font-medium text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0">
-                    Add New User
+                    Add New Customer
                 </a>
             </div>
         </div>
@@ -19,7 +19,7 @@
                     <div class="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
                         <!-- Search -->
                         <div class="flex-1 sm:pr-4">
-                            <form action="{{ route('users.index') }}" method="GET" class="flex">
+                            <form action="{{ route('customer-manage.index') }}" method="GET" class="flex">
                                 <div class="relative flex-1 min-w-0">
                                     <label for="search" class="sr-only">Search</label>
                                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -31,29 +31,13 @@
                                     </div>
                                     <input type="search" id="search" name="search" value="{{ request('search') }}"
                                         class="block w-full py-2 pl-10 pr-3 text-sm placeholder-gray-500 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                                        placeholder="Search by name, email or role...">
+                                        placeholder="Search by name, email or identity...">
                                 </div>
                                 <button type="submit"
                                     class="inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:cursor-pointer hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                     Search
                                 </button>
                             </form>
-                        </div>
-
-                        <!-- Filters -->
-                        <div class="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-2">
-                            <div>
-                                <label for="role-filter" class="sr-only">Filter by Role</label>
-                                <select id="role-filter" name="role"
-                                    onchange="window.location = '{{ route('users.index') }}?role=' + this.value + '&search={{ request('search') }}&sort={{ request('sort') }}&direction={{ request('direction') }}'"
-                                    class="block w-full py-2 pl-3 pr-10 text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                                    <option value="">All Roles</option>
-                                    <option value="superadmin" {{ request('role') == 'superadmin' ? 'selected' : '' }}>
-                                        Super Admin</option>
-                                    <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                                </select>
-                            </div>
-
                         </div>
                     </div>
                 </div>
@@ -65,9 +49,30 @@
                             <tr>
                                 <th scope="col"
                                     class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                                    <a href="{{ route('users.index', ['sort' => 'name', 'direction' => request('sort') == 'name' && request('direction') == 'asc' ? 'desc' : 'asc', 'search' => request('search'), 'role' => request('role')]) }}"
+                                    <a href="{{ route('customer-manage.index', ['sort' => 'given_id', 'direction' => request('sort') == 'given_id' && request('direction') == 'asc' ? 'desc' : 'asc', 'search' => request('search')]) }}"
                                         class="flex items-center hover:text-gray-700">
-                                        Name
+                                        ID Pelanggan
+                                        @if (request('sort') == 'given_id')
+                                            <svg class="w-4 h-4 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                                fill="currentColor">
+                                                @if (request('direction') == 'asc')
+                                                    <path fill-rule="evenodd"
+                                                        d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
+                                                        clip-rule="evenodd" />
+                                                @else
+                                                    <path fill-rule="evenodd"
+                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                        clip-rule="evenodd" />
+                                                @endif
+                                            </svg>
+                                        @endif
+                                    </a>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                                    <a href="{{ route('customer-manage.index', ['sort' => 'name', 'direction' => request('sort') == 'name' && request('direction') == 'asc' ? 'desc' : 'asc', 'search' => request('search')]) }}"
+                                        class="flex items-center hover:text-gray-700">
+                                        Nama
                                         @if (request('sort') == 'name')
                                             <svg class="w-4 h-4 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                                 fill="currentColor">
@@ -86,7 +91,7 @@
                                 </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                                    <a href="{{ route('users.index', ['sort' => 'username', 'direction' => request('sort') == 'username' && request('direction') == 'asc' ? 'desc' : 'asc', 'search' => request('search'), 'role' => request('role')]) }}"
+                                    <a href="{{ route('customer-manage.index', ['sort' => 'username', 'direction' => request('sort') == 'username' && request('direction') == 'asc' ? 'desc' : 'asc', 'search' => request('search')]) }}"
                                         class="flex items-center hover:text-gray-700">
                                         Username
                                         @if (request('sort') == 'username')
@@ -107,7 +112,7 @@
                                 </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                                    <a href="{{ route('users.index', ['sort' => 'email', 'direction' => request('sort') == 'email' && request('direction') == 'asc' ? 'desc' : 'asc', 'search' => request('search'), 'role' => request('role')]) }}"
+                                    <a href="{{ route('customer-manage.index', ['sort' => 'email', 'direction' => request('sort') == 'email' && request('direction') == 'asc' ? 'desc' : 'asc', 'search' => request('search')]) }}"
                                         class="flex items-center hover:text-gray-700">
                                         Email
                                         @if (request('sort') == 'email')
@@ -128,10 +133,10 @@
                                 </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                                    <a href="{{ route('users.index', ['sort' => 'role', 'direction' => request('sort') == 'role' && request('direction') == 'asc' ? 'desc' : 'asc', 'search' => request('search'), 'role' => request('role')]) }}"
+                                    <a href="{{ route('customer-manage.index', ['sort' => 'identity_number', 'direction' => request('sort') == 'identity_number' && request('direction') == 'asc' ? 'desc' : 'asc', 'search' => request('search')]) }}"
                                         class="flex items-center hover:text-gray-700">
-                                        Role
-                                        @if (request('sort') == 'role')
+                                        No KTP/KK/Kartu Pelajar
+                                        @if (request('sort') == 'identity_number')
                                             <svg class="w-4 h-4 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                                 fill="currentColor">
                                                 @if (request('direction') == 'asc')
@@ -149,7 +154,7 @@
                                 </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                                    <a href="{{ route('users.index', ['sort' => 'created_at', 'direction' => request('sort') == 'created_at' && request('direction') == 'asc' ? 'desc' : 'asc', 'search' => request('search'), 'role' => request('role')]) }}"
+                                    <a href="{{ route('customer-manage.index', ['sort' => 'created_at', 'direction' => request('sort') == 'created_at' && request('direction') == 'asc' ? 'desc' : 'asc', 'search' => request('search')]) }}"
                                         class="flex items-center hover:text-gray-700">
                                         Joined
                                         @if (request('sort') == 'created_at')
@@ -174,46 +179,40 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            @forelse($users as $user)
+                            @forelse($customers as $customer)
                                 <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">{{ $customer->given_id }}</div>
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
                                             <div class="flex-shrink-0 w-10 h-10">
                                                 <img class="w-10 h-10 rounded-full"
-                                                    src="{{ $user->profile_photo_url ?? 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&color=7F9CF5&background=EBF4FF' }}"
-                                                    alt="{{ $user->name }}">
+                                                    src="{{ $customer->profile_photo_url ?? 'https://ui-avatars.com/api/?name=' . urlencode($customer->user->name) . '&color=7F9CF5&background=EBF4FF' }}"
+                                                    alt="{{ $customer->user->name }}">
                                             </div>
                                             <div class="ml-4">
                                                 <div class="text-sm font-medium text-gray-900">
-                                                    {{ $user->name }}
+                                                    {{ $customer->user->name }}
                                                 </div>
                                             </div>
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">{{ $user->username }}</div>
+                                        <div class="text-sm text-gray-900">{{ $customer->user->username }}</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">{{ $user->email }}</div>
+                                        <div class="text-sm text-gray-900">{{ $customer->user->email }}</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <span
-                                            class="inline-flex px-2 text-xs font-semibold leading-5 
-                                        {{ $user->role === 'superadmin'
-                                            ? 'text-purple-800 bg-purple-100'
-                                            : ($user->role === 'admin'
-                                                ? 'text-blue-800 bg-blue-100'
-                                                : 'text-green-800 bg-green-100') }} 
-                                        rounded-full">
-                                            {{ ucfirst($user->role) }}
-                                        </span>
+                                        <div class="text-sm text-gray-900">{{ $customer->identity_number }}</div>
                                     </td>
                                     <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                        {{ $user->created_at->format('M d, Y') }}
+                                        {{ $customer->created_at->format('M d, Y') }}
                                     </td>
                                     <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
                                         <div class="flex items-center space-x-2">
-                                            <a href="{{ route('users.show', $user) }}"
+                                            <a href="{{ route('customer-manage.show', $customer) }}"
                                                 class="text-indigo-600 hover:text-indigo-900">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
                                                     viewBox="0 0 24 24" stroke="currentColor">
@@ -223,7 +222,7 @@
                                                         d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                                 </svg>
                                             </a>
-                                            <a href="{{ route('users.edit', $user) }}"
+                                            <a href="{{ route('customer-manage.edit', $customer) }}"
                                                 class="text-indigo-600 hover:text-indigo-900">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
                                                     viewBox="0 0 24 24" stroke="currentColor">
@@ -231,7 +230,7 @@
                                                         d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                                 </svg>
                                             </a>
-                                            <button type="button" onclick="deleteConfirm('{{ $user->id }}')"
+                                            <button type="button" onclick="deleteConfirm('{{ $customer->id }}')"
                                                 class="text-red-600 hover:text-red-900 hover:cursor-pointer">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
                                                     viewBox="0 0 24 24" stroke="currentColor">
@@ -245,7 +244,7 @@
                             @empty
                                 <tr>
                                     <td colspan="6" class="px-6 py-4 text-sm text-center text-gray-500">
-                                        No users found matching your search criteria.
+                                        No customers found
                                     </td>
                                 </tr>
                             @endforelse
@@ -255,7 +254,7 @@
 
                 <!-- Pagination -->
                 <div class="px-4 py-3 bg-white border-t border-gray-200 sm:px-6">
-                    {{ $users->appends(request()->except('page'))->links() }}
+                    {{ $customers->appends(request()->except('page'))->links() }}
                 </div>
             </div>
         </div>
@@ -315,8 +314,8 @@
 
 @push('scripts')
     <script>
-        function deleteConfirm(userId) {
-            document.getElementById('deleteForm').action = `/users/${userId}`;
+        function deleteConfirm(customer) {
+            document.getElementById('deleteForm').action = `/admin/customer-manage/${customer}`;
             document.getElementById('deleteModal').classList.remove('hidden');
         }
 

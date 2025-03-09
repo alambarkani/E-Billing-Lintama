@@ -16,6 +16,8 @@ class UserController extends Controller
     {
         Gate::authorize('viewAny', User::class);
         $query = User::query();
+        $query->whereIn('role', ['admin', 'superadmin']);
+
 
         // Search functionality
         if ($request->filled('search')) {

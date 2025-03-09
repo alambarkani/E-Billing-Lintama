@@ -32,12 +32,14 @@ class DatabaseSeeder extends Seeder
         //     'location_image_path' => 'location_image_path',
         //     'phone_number' => '1234567890',
         // ]);
-        User::create([
-            'name' => 'Admin',
-            'username' => 'admin',
-            'email' => 'admin@gmail.com',
-            'password'=> bcrypt('password'),
-            'role' => 'admin'
-        ]);
+        // User::create([
+        //     'name' => 'Admin',
+        //     'username' => 'admin',
+        //     'email' => 'admin@gmail.com',
+        //     'password'=> bcrypt('password'),
+        //     'role' => 'admin'
+        // ]);
+
+        User::factory(10)->create();
     }
 }

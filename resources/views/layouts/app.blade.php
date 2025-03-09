@@ -13,9 +13,6 @@
 
     @vite('resources/css/app.css')
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
-
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @stack('styles')
 </head>
@@ -44,8 +41,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
 
-    <!-- Custom JS -->
-    <script src="{{ asset('js/main.js') }}"></script>
 
     @stack('scripts')
 </body>

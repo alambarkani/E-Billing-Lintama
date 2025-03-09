@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CustomerManageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\UserController;
@@ -43,7 +44,6 @@ Route::middleware('auth')->group(function () {
     Route::middleware('can:access-admin')->group(function () {
         Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
         Route::resource('users', UserController::class);
+        Route::resource('admin/customer-manage', CustomerManageController::class);
     });
-
-
 });
