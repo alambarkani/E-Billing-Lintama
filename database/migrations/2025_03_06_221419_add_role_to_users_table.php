@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->foreignId('role_id')->after('password')->constrained()->cascadeOnDelete();
+            $table->enum('role', ['superadmin', 'admin', 'customer'])->default('customer')->after('password');
         });
     }
 
@@ -24,7 +24,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->dropForeign(['role_id']);
+            $table->dropColumn('role');
         });
     }
 };

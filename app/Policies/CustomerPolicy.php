@@ -16,6 +16,6 @@ class CustomerPolicy
 
     public function view(User $user)
     {
-        return $user->role->name === 'customer';
+        return $user->role === 'customer';
     }
 }

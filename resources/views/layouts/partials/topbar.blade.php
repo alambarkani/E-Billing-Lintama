@@ -1,75 +1,59 @@
-<nav class="navbar navbar-expand-lg bg-primary fixed-top">
-    <div class="container-fluid">
-        <!-- Sidebar Toggle Button -->
-        <button class="btn btn-link text-light me-2 d-lg-none" id="sidebarToggle">
-            <i class="bi bi-list"></i>
-        </button>
-        
-        <!-- Brand -->
-        <a class="navbar-brand" href="{{ route('home') }}">{{ config('app.name') }}</a>
-        
-        
-        <!-- Navbar Toggle Button -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        
-        <!-- Navbar Content -->
-        <div class="collapse navbar-collapse" id="navbarContent">
-            <!-- Left Side -->
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link text-light" href="{{ route('home') }}">Home</a>
-                </li>
-            </ul>
-            
-            <!-- Right Side -->
-            <ul class="navbar-nav">
-                <!-- Notifications -->
-                {{-- <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="notificationsDropdown" role="button" data-bs-toggle="dropdown">
-                        <i class="bi bi-bell"></i>
-                        @if($notificationCount = Auth::user()->unreadNotifications->count())
-                            <span class="badge bg-danger rounded-pill">{{ $notificationCount }}</span>
-                        @endif
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><h6 class="dropdown-header">Notifications</h6></li>
-                        
-                        @forelse(Auth::user()->notifications()->latest()->take(5)->get() as $notification)
-                            <li>
-                                <a class="dropdown-item {{ $notification->read_at ? '' : 'fw-bold' }}" 
-                                   href="{{ route('notifications.show', $notification) }}">
-                                    {{ Str::limit($notification->data['message'], 30) }}
-                                </a>
-                            </li>
-                        @empty
-                            <li><span class="dropdown-item">No notifications</span></li>
-                        @endforelse
-                        
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{{ route('notifications.index') }}">View all</a></li>
-                    </ul>
-                </li> --}}
-                
-                <!-- User Dropdown -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-light" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                        <i class="bi bi-person-circle"></i> {{ Auth::user()->name }}
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        {{-- <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a></li>
-                        <li><a class="dropdown-item" href="{{ route('profile.settings') }}">Settings</a></li> --}}
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit" class="dropdown-item">Logout</button>
-                            </form>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+<!-- Topbar -->
+<div class="sticky top-0 z-10 flex flex-shrink-0 h-16 bg-white shadow">
+    <button @click="sidebarOpen = true"
+        class="px-4 text-gray-500 border-r border-gray-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden">
+        <span class="sr-only">Open sidebar</span>
+        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+        </svg>
+    </button>
+
+    <div class="flex justify-end flex-1 px-4">
+
+        <!-- Notification and profile dropdown -->
+        <div class="flex items-center ml-4 md:ml-6">
+            <!-- Notification button -->
+            <button
+                class="p-1 text-gray-400 bg-white rounded-full hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <span class="sr-only">View notifications</span>
+                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>
+            </button>
+
+            <!-- Profile dropdown -->
+            <div class="relative ml-3" x-data="{ open: false }">
+                <div>
+                    <button @click="open = !open"
+                        class="flex items-center max-w-xs text-sm bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                        <span class="sr-only">Open user menu</span>
+                        <img class="w-8 h-8 rounded-full"
+                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                            alt="">
+                    </button>
+                </div>
+
+                <!-- Dropdown menu -->
+                <div x-show="open" @click.away="open = false" x-transition:enter="transition ease-out duration-100"
+                    x-transition:enter-start="transform opacity-0 scale-95"
+                    x-transition:enter-end="transform opacity-100 scale-100"
+                    x-transition:leave="transition ease-in duration-75"
+                    x-transition:leave-start="transform opacity-100 scale-100"
+                    x-transition:leave-end="transform opacity-0 scale-95"
+                    class="absolute right-0 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                    role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem"
+                        tabindex="-1" id="user-menu-item-0">Your Profile</a>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem"
+                        tabindex="-1" id="user-menu-item-1">Settings</a>
+                    <a href="{{ route('logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
+                </div>
+            </div>
         </div>
     </div>
-</nav>
+</div>

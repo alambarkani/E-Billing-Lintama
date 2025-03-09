@@ -12,7 +12,7 @@ class UserPolicy
      */
     public function viewAny(User $user): Response
     {
-        return $user->role->name === 'superadmin'
+        return $user->role === 'superadmin' || $user->role === 'admin'
             ? Response::allow()
             : Response::denyAsNotFound();
     }
@@ -22,7 +22,7 @@ class UserPolicy
      */
     public function view(User $user, User $model): Response
     {
-        return $user->role->name === 'admin' && $model->role->name === 'admin' || $model->role->name === 'customer'
+        return $user->role === 'superadmin' || ($user->role === 'admin' && $model->role !== 'superadmin')
             ? Response::allow()
             : Response::denyAsNotFound();
     }
@@ -32,7 +32,7 @@ class UserPolicy
      */
     public function create(User $user): Response
     {
-        return $user->role->name === 'superadmin' || $user->role->name === 'admin'
+        return $user->role === 'superadmin'
             ? Response::allow()
             : Response::denyAsNotFound();
     }
@@ -42,7 +42,7 @@ class UserPolicy
      */
     public function update(User $user, User $model): Response
     {
-        return ($user->role->name === 'superadmin' && $model->role->name !== 'superadmin') || ($user->role->name === 'admin' && $model->role->name !== 'superadmin' || $model->role->name !== 'admin')
+        return $user->role === 'superadmin' && $user->id !== $model->id
             ? Response::allow()
             : Response::denyAsNotFound();
     }
@@ -52,7 +52,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model): Response
     {
-        return ($user->role->name === 'superadmin' && $model->role->name !== 'superadmin') || ($user->role->name === 'admin' && $model->role->name !== 'superadmin' || $model->role->name !== 'admin')
+        return $user->role === 'superadmin' && $user->id !== $model->id
             ? Response::allow()
             : Response::denyAsNotFound();
     }
@@ -62,7 +62,7 @@ class UserPolicy
      */
     public function restore(User $user, User $model): Response
     {
-        return ($user->role->name === 'superadmin' && $model->role->name !== 'superadmin') || ($user->role->name === 'admin' && $model->role->name !== 'superadmin' || $model->role->name !== 'admin')
+        return $user->role === 'superadmin' && $user->id !== $model->id
             ? Response::allow()
             : Response::denyAsNotFound();
     }
@@ -72,7 +72,7 @@ class UserPolicy
      */
     public function forceDelete(User $user, User $model): Response
     {
-        return $user->role->name === 'superadmin' && $model->role->name !== 'superadmin'
+        return $user->role === 'superadmin' && $user->id !== $model->id
             ? Response::allow()
             : Response::denyAsNotFound();
     }

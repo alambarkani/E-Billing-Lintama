@@ -21,7 +21,8 @@ class User extends Authenticatable
         'name',
         'username',
         'email',
-        'password'
+        'password',
+        'role'
     ];
 
     /**
@@ -59,16 +60,16 @@ class User extends Authenticatable
 
     public function isSuperAdmin()
     {
-        return $this->role->name === 'superadmin';
+        return $this->role === 'superadmin';
     }
 
     public function isAdmin()
     {
-        return $this->role->name === 'admin';
+        return $this->role === 'admin';
     }
 
     public function isCustomer()
     {
-        return $this->role->name === 'customer';
+        return $this->role === 'customer';
     }
 }

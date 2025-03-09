@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'admin',
             'email' => 'admin@gmail.com',
             'password'=> bcrypt('password'),
-            'role_id' => Role::firstOrCreate(['name' => 'admin'])->id
+            'role' => 'admin'
         ]);
     }
 }

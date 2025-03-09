@@ -16,6 +16,6 @@ class AdminPolicy
 
     public function view(User $user)
     {
-        return $user->role->name === 'admin' || $user->role->name === 'superadmin';
+        return $user->role === 'admin' || $user->role === 'superadmin';
     }
 }
